@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "489545231703",
+    "project_id": "luma-android-48de0",
+    "storage_bucket": "luma-android-48de0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489545231703:android:6a5a528a85484194cfa212",
+        "android_client_info": {
+          "package_name": "com.adobe.luma.tutorial.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuRXojfR1nagi2VE9QwB2Vp-ZCn01KYp8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
