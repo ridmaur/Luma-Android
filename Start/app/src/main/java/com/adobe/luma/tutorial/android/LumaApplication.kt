@@ -40,7 +40,7 @@ import androidx.core.net.toUri
 
 
 class LumaApplication : Application() {
-    private var environmentFileId = "YOUR_ENVIRONMENT_ID_GOES_HERE"
+    private var environmentFileId = "b5cbd1a1220e/1857ef6cacb5/launch-2594f26b23cd-development"
 
     override fun onCreate() {
         super.onCreate()
@@ -49,8 +49,31 @@ class LumaApplication : Application() {
         MobileCore.setApplication(this)
 
         // Define extensions
+        val extensions = listOf(
+            Identity.EXTENSION,
+            Lifecycle.EXTENSION,
+            Signal.EXTENSION,
+            Edge.EXTENSION,
+            Consent.EXTENSION,
+            UserProfile.EXTENSION,
+            Places.EXTENSION,
+            Messaging.EXTENSION,
+            Optimize.EXTENSION,
+            Assurance.EXTENSION
+        )
 
         // Register extensions
+        MobileCore.registerExtensions(extensions) {
+            // Use the environment file id assigned to this application via Adobe Experience Platform Data Collection
+            Log.i("Luma", "Using mobile config: $environmentFileId")
+            MobileCore.configureWithAppID(environmentFileId)
+
+            // set this to true when testing on your device, default is false.
+            //MobileCore.updateConfiguration(mapOf("messaging.useSandbox" to true))
+
+            // assume unknown, adapt to your needs.
+            MobileCore.setPrivacyStatus(MobilePrivacyStatus.UNKNOWN)
+        }
 
         // only start lifecycle if the application is not in the background
         // see LumaActivityLifecycleCallbacks.onActivityResumed
@@ -93,7 +116,13 @@ class LumaApplication : Application() {
 
     fun handleDeeplink(deeplink: String?) {
         // Called when the app in background is opened with a deep link.
+        if (deeplink.isNullOrEmpty()) {
+            Log.w("Luma", "Deeplink is null or empty")
+            return
+        }
 
+        Log.i("Luma", "Handling deeplink: $deeplink")
+        Assurance.startSession(deeplink)
     }
 
     fun scheduleNotification() {

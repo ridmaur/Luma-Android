@@ -85,9 +85,12 @@ fun HomeView(navController: NavController) {
         // Track view screen
         MobileCore.trackState("luma: content: android: us: en: home", null)
         // Get attributes
+        UserProfile.getUserAttributes(listOf("isPaidUser")) { attributes ->
+            showBadgeForUser = attributes?.get("isPaidUser") == "yes"
+        }
 
         // Ask status of consents
-
+        MobileSDK.shared.getConsents()
     }
 
     Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
@@ -96,10 +99,18 @@ fun HomeView(navController: NavController) {
                 showLoginSheet = true
             },
             content = {
-                Icon(
-                    painterResource(id = R.drawable.ic_person),
-                    contentDescription = "Login icon"
-                )
+                if (showBadgeForUser) {
+                    Icon(
+                        painterResource(id = R.drawable.ic_person_badge),
+                        contentDescription = "Login icon"
+                    )
+                }
+                else {
+                    Icon(
+                        painterResource(id = R.drawable.ic_person),
+                        contentDescription = "Login icon"
+                    )
+                }
             })
     }
 

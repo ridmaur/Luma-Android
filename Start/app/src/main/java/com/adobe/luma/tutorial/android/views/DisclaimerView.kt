@@ -57,7 +57,22 @@ fun DisclaimerView(navController: NavController) {
         ActivityResultContracts.RequestPermission()
     ) { status: Boolean ->
         // Add consent based on authorization
-
+        if (status) {
+            showPersonalizationWarning = false
+            // Set consent to yes
+            MobileSDK.shared.updateTrackingStatus(TrackingStatus.AUTHORIZED)
+            MobileSDK.shared.updateConsent("y")
+        } else {
+            Toast.makeText(
+                context,
+                "You will not receive offers and location tracking will be disabled.",
+                Toast.LENGTH_LONG
+            ).show()
+            showPersonalizationWarning = true
+            // Set consent to no
+            MobileSDK.shared.updateTrackingStatus(TrackingStatus.DENIED)
+            MobileSDK.shared.updateConsent("n")
+        }
         continueButtonEnabled = true
     }
 

@@ -37,7 +37,7 @@ fun LoginSheet(onDismiss: () -> Unit) {
         disableLogin =
             MobileSDK.shared.currentEmailId.value != "testUser@gmail.com" && MobileSDK.shared.currentEmailId.value.isValidEmail()
         // Send track screen event
-
+        MobileSDK.shared.sendTrackScreenEvent("luma: content: android: us: en: login")
     }
 
     Dialog(
@@ -73,7 +73,10 @@ fun LoginSheet(onDismiss: () -> Unit) {
                 Row {
                     Button(onClick = {
                         // Remove identities
-
+                        MobileSDK.shared.removeIdentities(
+                            MobileSDK.shared.currentEmailId.value,
+                            MobileSDK.shared.currentCRMId.value
+                        )
                         onDismiss()
                     }) {
                         Text("Logout")
@@ -113,9 +116,12 @@ fun LoginSheet(onDismiss: () -> Unit) {
                     Button(
                         onClick = {
                             // Update identities
-
+                            MobileSDK.shared.updateIdentities(
+                                MobileSDK.shared.currentEmailId.value,
+                                MobileSDK.shared.currentCRMId.value
+                            )
                             // Send app interaction event
-
+                            MobileSDK.shared.sendAppInteractionEvent("login")
                             onDismiss()
                         },
                         enabled = MobileSDK.shared.currentEmailId.value.isValidEmail()

@@ -15,6 +15,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("kotlin-kapt")
 }
 
 android {
@@ -124,6 +125,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     // add Firebase Messaging
     implementation("com.google.firebase:firebase-messaging")
+
 }
 
 secrets {

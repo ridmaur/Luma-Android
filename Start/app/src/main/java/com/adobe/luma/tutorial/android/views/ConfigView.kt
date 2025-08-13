@@ -154,6 +154,7 @@ fun ConfigView(navController: NavController) {
                         ) {
                             TestSection(
                                 onInAppMessageClick = {
+                                    // Setting parameters and calling function to send in-app message
                                     MobileSDK.shared.sendTrackAction(
                                         "in-app",
                                         mapOf("showMessage" to "true")
