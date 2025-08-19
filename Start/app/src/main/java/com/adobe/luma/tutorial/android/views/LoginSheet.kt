@@ -117,7 +117,6 @@ fun LoginSheet(onDismiss: () -> Unit) {
 
                             // Send app interaction event
 
-
                             onDismiss()
                         },
                         enabled = MobileSDK.shared.currentEmailId.value.isValidEmail()

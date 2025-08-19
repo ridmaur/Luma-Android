@@ -120,12 +120,7 @@ class MobileSDK : ViewModel() {
 
     fun getConsents() {
         // Get consents
-        Consent.getConsents { callback ->
-            if (callback != null) {
-                val jsonStr = JSONObject(callback).toString(4)
-                Log.i("MobileSDK", "Consent getConsents: $jsonStr")
-            }
-        }
+
     }
 
     fun logInfo(message: String) {
@@ -178,7 +173,11 @@ class MobileSDK : ViewModel() {
     }
 
     suspend fun sendTestPushEvent(applicationId: String, eventType: String) {
+
+        // Create paylod and send experience event
+
         // Create payload and send experience event
+
 
     }
 
@@ -198,7 +197,11 @@ class MobileSDK : ViewModel() {
     }
 
     fun sendTrackAction(action: String, data: Map<String, String>?) {
+
+        // Send trackAction event
+
         // Send trackAction Event
+
 
     }
 
@@ -221,6 +224,7 @@ class MobileSDK : ViewModel() {
         withContext(Dispatchers.IO) {
             geofence?.let {
                 // Process geolocation event
+
 
             }
         }

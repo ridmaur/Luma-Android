@@ -159,6 +159,7 @@ fun ProductView(productId: String, navController: NavController) {
                             scope.launch {
                                 // Send purchase commerce experience event
 
+
                                 // Update attributes
 
 
