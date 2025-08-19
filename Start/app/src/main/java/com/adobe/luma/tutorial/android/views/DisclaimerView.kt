@@ -59,6 +59,7 @@ fun DisclaimerView(navController: NavController) {
         // Add consent based on authorization
         if (status) {
             showPersonalizationWarning = false
+
             // Set consent to yes
 
         } else {
@@ -68,6 +69,7 @@ fun DisclaimerView(navController: NavController) {
                 Toast.LENGTH_LONG
             ).show()
             showPersonalizationWarning = true
+
             // Set consent to no
 
         }

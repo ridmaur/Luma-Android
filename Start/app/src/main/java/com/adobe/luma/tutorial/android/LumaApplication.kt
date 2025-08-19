@@ -36,7 +36,7 @@ import com.adobe.marketing.mobile.edge.consent.Consent
 import com.adobe.marketing.mobile.edge.identity.Identity
 import com.adobe.marketing.mobile.optimize.Optimize
 import com.google.firebase.messaging.FirebaseMessaging
-import androidx.core.net.toUri
+import com.google.firebase.FirebaseApp
 
 
 class LumaApplication : Application() {
@@ -44,12 +44,20 @@ class LumaApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseApp.initializeApp(this)
 
         MobileCore.setLogLevel(LoggingMode.ERROR)
         MobileCore.setApplication(this)
 
         // Define extensions
 
+
+
+        // Register extensions
+        MobileCore.registerExtensions(extensions) {
+            // Use the environment file id assigned to this application via Adobe Experience Platform Data Collection
+            Log.i("Luma", "Using mobile config: $environmentFileId")
+            MobileCore.configureWithAppID(environmentFileId)
 
         // Register extensions
 
@@ -73,7 +81,9 @@ class LumaApplication : Application() {
                 Log.i("Luma", "Android Firebase token :: $token")
 
                 // Send push token to Mobile SDK
+
                 MobileCore.setPushIdentifier(token)
+
 
                 // Store the push token
                 MobileSDK.shared.deviceToken.value = token

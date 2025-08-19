@@ -74,7 +74,7 @@ fun ProductView(productId: String, navController: NavController) {
 
     LaunchedEffect(Unit) {
         // Send productViews commerce experience event
-        MobileSDK.shared.sendCommerceExperienceEvent("productViews", product)
+
     }
 
     Scaffold(

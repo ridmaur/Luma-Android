@@ -84,6 +84,7 @@ fun HomeView(navController: NavController) {
     LaunchedEffect(Unit) {
         // Track view screen
         MobileCore.trackState("luma: content: android: us: en: home", null)
+
         // Get attributes
 
         // Ask status of consents
@@ -96,7 +97,7 @@ fun HomeView(navController: NavController) {
                 showLoginSheet = true
             },
             content = {
-                if (showBadgeForUser) {
+                if (showBadgeForUser === true) {
                     Icon(
                         painterResource(id = R.drawable.ic_person_badge),
                         contentDescription = "Login icon"

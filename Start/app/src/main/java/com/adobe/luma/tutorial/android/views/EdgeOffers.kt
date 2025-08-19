@@ -214,7 +214,7 @@ fun onPropositionsUpdateOD(
     val offersOD = arrayListOf<OfferItem>()
     val decisionScope = DecisionScope(activityId, placementId, itemCount)
     val latch = CountDownLatch(1)
-    Optimize.getPropositions(listOf(decisionScope)) { propositions ->
+    Optimize.onPropositionsUpdate { propositions ->
         propositions[decisionScope]?.let { optimizeProposition ->
             for (offer in optimizeProposition.offers) {
                 val contentJson = JSONObject(offer.content)
@@ -232,6 +232,6 @@ fun onPropositionsUpdateOD(
         }
         latch.countDown()
     }
-    latch.await(1000, TimeUnit.MILLISECONDS)
+    latch.await(2000, TimeUnit.MILLISECONDS)
     return offersOD
 }
