@@ -70,16 +70,7 @@ fun EdgeOffersView(decision: Decision, navController: NavController) {
     val scope = rememberCoroutineScope()
 
     // recompose the view when the number of received offers changes
-    LaunchedEffect(offersOD.count()) {
-        updatePropositionsOD(
-            currentEcid,
-            decision.activityId,
-            decision.placementId,
-            decision.itemCount
-        )
-        offersOD =
-            onPropositionsUpdateOD(decision.activityId, decision.placementId, decision.itemCount)
-    }
+
 
     Text(
         text = "Decision: ${decision.name}".toUpperCase(Locale.current),

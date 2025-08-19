@@ -62,10 +62,7 @@ fun TargetOffersView(navController: NavController) {
     val scope = rememberCoroutineScope()
 
     // recompose the view when the number of received offers changes
-    LaunchedEffect(offersAT.count()) {
-        updatePropositionsAT(currentEcid, MobileSDK.shared.targetLocation.value)
-        offersAT = onPropositionsUpdateAT(MobileSDK.shared.targetLocation.value)
-    }
+
 
     Text(
         text = "Target".toUpperCase(Locale.current),

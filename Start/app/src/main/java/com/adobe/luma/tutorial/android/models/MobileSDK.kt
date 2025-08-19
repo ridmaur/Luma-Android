@@ -112,20 +112,12 @@ class MobileSDK : ViewModel() {
 
     fun updateConsent(value: String) {
         // Update consent
-        val collectConsent = mapOf("collect" to mapOf("val" to value))
-        val currentConsents = mapOf("consents" to collectConsent)
-        Consent.update(currentConsents)
-        MobileCore.updateConfiguration(currentConsents)
+
     }
 
     fun getConsents() {
         // Get consents
-        Consent.getConsents { callback ->
-            if (callback != null) {
-                val jsonStr = JSONObject(callback).toString(4)
-                Log.i("MobileSDK", "Consent getConsents: $jsonStr")
-            }
-        }
+
     }
 
     fun logInfo(message: String) {
@@ -134,74 +126,27 @@ class MobileSDK : ViewModel() {
 
     fun sendAppInteractionEvent(actionName: String) {
         // Set up a data map, create an experience event and send the event.
-        val xdmData = mapOf(
-            "eventType" to "application.interaction",
-            tenant.value to mapOf(
-                "appInformation" to mapOf(
-                    "appInteraction" to mapOf(
-                        "name" to actionName,
-                        "appAction" to mapOf("value" to 1)
-                    )
-                )
-            )
-        )
-        val appInteractionEvent = ExperienceEvent.Builder().setXdmSchema(xdmData).build()
-        Edge.sendEvent(appInteractionEvent, null)
+
     }
 
     fun sendTrackScreenEvent(stateName: String) {
         // Set up a data map, create an experience event and send the event.
-        val xdmData = mapOf(
-            "eventType" to "application.scene",
-            tenant.value to mapOf(
-                "appInformation" to mapOf(
-                    "appStateDetails" to mapOf(
-                        "screenType" to "App",
-                        "screenName" to stateName,
-                        "screenView" to mapOf("value" to 1)
-                    )
-                )
-            )
-        )
-        val trackScreenEvent = ExperienceEvent.Builder().setXdmSchema(xdmData).build()
-        Edge.sendEvent(trackScreenEvent, null)
+
     }
 
     fun sendCommerceExperienceEvent(commerceEventType: String, product: Product) {
         // Set up a data map, create an experience event and send the event.
-        val xdmData = mapOf(
-            "eventType" to "commerce.$commerceEventType",
-            "commerce" to mapOf(commerceEventType to mapOf("value" to 1)),
-            "productListItems" to listOf(
-                mapOf(
-                    "name" to product.name,
-                    "priceTotal" to product.price,
-                    "SKU" to product.sku
-                )
-            )
-        )
-        val commerceExperienceEvent = ExperienceEvent.Builder().setXdmSchema(xdmData).build()
-        Edge.sendEvent(commerceExperienceEvent, null)
+
     }
 
     fun updateIdentities(emailAddress: String, crmId: String) {
         // Set up identity map, add identities to map and update identities
-        val identityMap = IdentityMap()
 
-        val emailIdentity = IdentityItem(emailAddress, AuthenticatedState.AUTHENTICATED, true)
-        val crmIdentity = IdentityItem(crmId, AuthenticatedState.AUTHENTICATED, true)
-        identityMap.addItem(emailIdentity, "Email")
-        identityMap.addItem(crmIdentity, "lumaCRMId")
-
-        Identity.updateIdentities(identityMap)
     }
 
     fun removeIdentities(emailAddress: String, crmId: String) {
         // Remove identities and reset email and CRM Id to their defaults
-        Identity.removeIdentity(IdentityItem(emailAddress), "Email")
-        Identity.removeIdentity(IdentityItem(crmId), "lumaCRMId")
-        currentEmailId.value = "testUser@gmail.com"
-        currentCRMId.value = "112ca06ed53d3db37e4cea49cc45b71e"
+
     }
 
 
@@ -221,16 +166,12 @@ class MobileSDK : ViewModel() {
 
     fun updateUserAttribute(attributeName: String, attributeValue: String) {
         // Create a profile map, add attributes to the map and update profile using the map
-        val profileMap = mapOf(attributeName to attributeValue)
-        UserProfile.updateUserAttributes(profileMap)
+
     }
 
     suspend fun sendTestPushEvent(applicationId: String, eventType: String) {
-        val testPushPayload = TestPushPayload(
-            Application(applicationId),
-            eventType
-        )
-        sendExperienceEvent(testPushPayload.asMap())
+        // Create paylod and send experience event
+
     }
 
     private suspend fun sendExperienceEvent(xdm: Map<String, Any>) {
@@ -250,29 +191,12 @@ class MobileSDK : ViewModel() {
 
     fun sendTrackAction(action: String, data: Map<String, String>?) {
         // Send trackAction event
-        MobileCore.trackAction(action, data)
+
     }
 
     suspend fun updatePropositionsAT(ecid: String, location: String) {
         // set up the XDM dictionary, define decision scope and call update proposition API
-        withContext(Dispatchers.IO) {
-            val ecidMap = mapOf("ECID" to mapOf("id" to ecid, "primary" to true))
-            val identityMap = mapOf("identityMap" to ecidMap)
-            val xdmData = mapOf("xdm" to identityMap)
-            val decisionScope = DecisionScope(location)
-            Optimize.clearCachedPropositions()
-            Optimize.updatePropositions(listOf(decisionScope), xdmData, null, object :
-                AdobeCallbackWithOptimizeError<MutableMap<DecisionScope?, OptimizeProposition?>?> {
-                override fun fail(optimizeError: AEPOptimizeError?) {
-                    val responseError = optimizeError
-                    Log.i("MobileSDK", "updatePropositionsAT error: ${responseError}")
-                }
-                override fun call(propositionsMap: MutableMap<DecisionScope?, OptimizeProposition?>?) {
-                    val responseMap = propositionsMap
-                    Log.i("MobileSDK", "updatePropositionsOD call: ${responseMap}")
-                }
-            })
-        }
+
     }
 
     suspend fun updatePropositionsOD(
@@ -282,31 +206,14 @@ class MobileSDK : ViewModel() {
         itemCount: Int
     ) {
         // set up the XDM dictionary, define decision scope and call update proposition API
-        withContext(Dispatchers.IO) {
-            val ecidMap = mapOf("ECID" to mapOf("id" to ecid, "primary" to true))
-            val identityMap = mapOf("identityMap" to ecidMap)
-            val xdmData = mapOf("xdm" to identityMap)
-            val decisionScope = DecisionScope(activityId, placementId, itemCount)
-            Optimize.clearCachedPropositions()
-            Optimize.updatePropositions(listOf(decisionScope), xdmData, null, object :
-                AdobeCallbackWithOptimizeError<MutableMap<DecisionScope?, OptimizeProposition?>?> {
-                override fun fail(optimizeError: AEPOptimizeError?) {
-                    val responseError = optimizeError
-                    Log.i("MobileSDK", "updatePropositionsOD error: ${responseError}")
-                }
-                override fun call(propositionsMap: MutableMap<DecisionScope?, OptimizeProposition?>?) {
-                    val responseMap = propositionsMap
-                    Log.i("MobileSDK", "updatePropositionsOD call: ${responseMap}")
-                }
-            })
-        }
+
     }
 
     suspend fun processGeofence(geofence: Geofence?, transitionType: Int) {
         withContext(Dispatchers.IO) {
             geofence?.let {
                 // Process geolocation event
-                Places.processGeofence(geofence, transitionType)
+
 
             }
         }

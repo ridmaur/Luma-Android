@@ -71,8 +71,10 @@ class LumaApplication : Application() {
                 // Get new FCM registration token
                 val token = task.result
                 Log.i("Luma", "Android Firebase token :: $token")
-                // register push notification
+
+                // Send push token to Mobile SDK
                 MobileCore.setPushIdentifier(token)
+
                 // Store the push token
                 MobileSDK.shared.deviceToken.value = token
             }
@@ -123,13 +125,13 @@ class LumaApplication : Application() {
         override fun onActivityResumed(activity: Activity) {
             Log.i("Luma", "onActivityResumed: " + activity.localClassName)
             // When in foreground start lifecycle data collection
-            MobileCore.lifecycleStart(null)
+
         }
 
         override fun onActivityPaused(activity: Activity) {
             Log.i("Luma", "onActivityPaused: " + activity.localClassName)
             // When in background pause lifecycle data collection
-            MobileCore.lifecyclePause()
+
         }
 
         override fun onActivityStopped(activity: Activity) {

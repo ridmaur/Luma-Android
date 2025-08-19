@@ -155,20 +155,11 @@ fun ConfigView(navController: NavController) {
                             TestSection(
                                 onInAppMessageClick = {
                                     // Setting parameters and calling function to send in-app message
-                                    MobileSDK.shared.sendTrackAction(
-                                        "in-app",
-                                        mapOf("showMessage" to "true")
-                                    )
+
                                 },
                                 onPushNotificationClick = {
-                                    val eventType = testPushEventType
-                                    val applicationId = context.packageName
-                                    scope.launch {
-                                        MobileSDK.shared.sendTestPushEvent(
-                                            applicationId,
-                                            eventType
-                                        )
-                                    }
+                                    // Setting parameters and calling function to send push notification
+
                                 }
                             )
                         }
