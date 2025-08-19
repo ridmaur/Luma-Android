@@ -36,7 +36,7 @@ import com.adobe.marketing.mobile.edge.consent.Consent
 import com.adobe.marketing.mobile.edge.identity.Identity
 import com.adobe.marketing.mobile.optimize.Optimize
 import com.google.firebase.messaging.FirebaseMessaging
-import androidx.core.net.toUri
+import com.google.firebase.FirebaseApp
 
 
 class LumaApplication : Application() {
@@ -44,6 +44,7 @@ class LumaApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseApp.initializeApp(this)
 
         MobileCore.setLogLevel(LoggingMode.ERROR)
         MobileCore.setApplication(this)
@@ -61,6 +62,7 @@ class LumaApplication : Application() {
             Optimize.EXTENSION,
             Assurance.EXTENSION
         )
+
 
         // Register extensions
         MobileCore.registerExtensions(extensions) {
@@ -92,8 +94,10 @@ class LumaApplication : Application() {
                 // Get new FCM registration token
                 val token = task.result
                 Log.i("Luma", "Android Firebase token :: $token")
-                // register push notification
-                MobileCore.setPushIdentifier(token)
+
+                // Send push token to Mobile SDK
+
+
                 // Store the push token
                 MobileSDK.shared.deviceToken.value = token
             }
@@ -150,13 +154,13 @@ class LumaApplication : Application() {
         override fun onActivityResumed(activity: Activity) {
             Log.i("Luma", "onActivityResumed: " + activity.localClassName)
             // When in foreground start lifecycle data collection
-            MobileCore.lifecycleStart(null)
+
         }
 
         override fun onActivityPaused(activity: Activity) {
             Log.i("Luma", "onActivityPaused: " + activity.localClassName)
             // When in background pause lifecycle data collection
-            MobileCore.lifecyclePause()
+
         }
 
         override fun onActivityStopped(activity: Activity) {
