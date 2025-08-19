@@ -52,6 +52,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun showNotification(title: String, message: String) {
+        Log.i("showNotification", "Entering showNotification...")
         val channelId = "LUMA_CHANNEL_ID"
         val channelName = "Luma Channel"
 
@@ -74,7 +75,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
 
-        notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+        notificationManager.notify(1, builder.build())
     }
 
     // sample function to show rich media push notification
